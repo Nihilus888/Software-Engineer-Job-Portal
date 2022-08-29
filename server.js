@@ -1,12 +1,13 @@
 //require dotenv file to encode password
-require('dotenv').config()
+
+require("dotenv").config();
 
 //Initializing necessary dependencies
 
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const session = require('express-session')
+const session = require("express-session");
 const res = require("express/lib/response");
 
 //Will probably insert router here later
@@ -18,7 +19,6 @@ const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PAS
 app.get("/", (req, res) => {
   res.send("Success!");
 });
-
 
 app.listen(port, async () => {
   try {
