@@ -16,6 +16,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@generalassembly.odxzs.mongodb.net`;
 
+//render home page
 app.get("/", (req, res) => {
   res.send("Success!");
 });
