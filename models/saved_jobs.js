@@ -1,10 +1,10 @@
-const { number } = require('joi')
 const mongoose = require('mongoose')
 
-const jobSchema = new mongoose.Schema({
+const savedJobsSchema = new mongoose.Schema({
 
-    id: {
-        type: Number,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
 
@@ -13,9 +13,14 @@ const jobSchema = new mongoose.Schema({
         required: true
     },
 
-    salary: {
-        min: Number,
-        max: Number
+    salary_min: {
+        type: Number,
+        required: true
+    },
+
+    salary_max: {
+        type: Number,
+        required: true
     },
 
     currency: {
@@ -24,7 +29,7 @@ const jobSchema = new mongoose.Schema({
     },
 
     tech_stacks: {
-        type: [jobSchema],
+        type: [],
     },
 
     position: {
@@ -40,4 +45,4 @@ const jobSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('savedJobs', userSchema)
