@@ -38,11 +38,10 @@ const savedJobsSchema = new mongoose.Schema({
     },
 
     company: {
-        id: Number,
-        companyName: String,
+        type: String,
         required: true
     }
 
 })
 
-module.exports = mongoose.model('savedJobs', userSchema)
+module.exports = mongoose.model('savedJobs', savedJobsSchema)
