@@ -14,6 +14,13 @@ const app = express();
 const port = process.env.PORT || 8000;
 const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@generalassembly.odxzs.mongodb.net`;
 
+//express use
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use(cors({
+  origin: '*'
+}))
+
 //render home page
 app.get("/", (req, res) => {
   res.send("Success!");
