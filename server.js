@@ -1,9 +1,7 @@
 //require dotenv file to encode password
-
 require("dotenv").config();
 
 //Initializing necessary dependencies
-
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
