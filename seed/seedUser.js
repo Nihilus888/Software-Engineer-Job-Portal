@@ -1,7 +1,7 @@
 //require dotenv file to encode password
 require('dotenv').config()
 const mongoose = require("mongoose");
-const User = require("./models/user");
+const User = require("../models/user");
 
 const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@generalassembly.odxzs.mongodb.net`;
 
