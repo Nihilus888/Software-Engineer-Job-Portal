@@ -51,6 +51,28 @@ module.exports = {
 
   //logout
     //remove JWT token from localstorage and return to home guest login page
+    logout: async (req, res) => {
+      req.session.user = null
+
+      req.session.save(function (err) {
+        if (err) {
+          res.redirect('/')
+          return
+        }
+
+        //regenerate session
+        req.session.regenerate(function (err) {
+          if (err) {
+            res.redirect('/home')
+            return
+          }
+        })
+        //remove JWT token from localstorage and return to home guest login page
+        localStorage.removeItem(token)
+
+        res.redirect('/')
+      })
+    }
 
 
 
