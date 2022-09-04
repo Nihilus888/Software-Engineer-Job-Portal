@@ -3,16 +3,34 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 
 module.exports = {
-  //register
-    //do necessary validations
-    //get validated values from req.body
-    //find validated users from database
+  register: async(req, res) => {
 
-    //if user already exists in database, return error
+    //get validated values from req.body
+    const validatedValues = req.body
+    //find validated users from database
+    try {
+      const user = await userModel.findOne({email: validatedValues.email})
+      //if user already exists in database, return error
+      if (user) {
+        return res.status(409).json({error: "user already exists"})
+        } 
+      } catch (err) {
+        return res.status(500).json({error: "unable to get user"})
+      }
+
     //else encrypt password with hash and store all their other details as well into database
+    const passwordHash = await bcrypt.hash(req.body.password, 20)
+    const user = {...req.body, password: passwordHash}
   
     //if error in creating user, return error
     //else continue and return json format
+    try {
+      await userModel.create(user)
+    } catch(err) {
+      return res.status(500).json({error: "unable to register user"})
+    }
+    return res.json()
+  },
 
   //login
     //do necessary validations
