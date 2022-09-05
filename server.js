@@ -39,6 +39,14 @@ app.get('/register', (req, res) => {
 //post test register route page
 app.post('/register', user_controller.register)
 
+//get test login route page
+app.get('/login', (req, res) => {
+  res.render('pages/login')
+})
+
+//post test login route page
+app.post('/login', user_controller.login)
+
 
 //listening port
 app.listen(port, async () => {
