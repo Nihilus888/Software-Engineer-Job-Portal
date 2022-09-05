@@ -10,37 +10,79 @@ module.exports = {
     //find validated users from database
     try {
       const user = await userModel.findOne({email: validatedValues.email})
-      //if user already exists in database, return error
+      //if user email already exists in database, return error
       if (user) {
         return res.status(409).json({error: "user already exists"})
         } 
       } catch (err) {
+        console.log(err)
         return res.status(500).json({error: "unable to get user"})
       }
+
+    //check if password is the same
+    if (validatedValues.password !== validatedValues.confirmPassword) {
+      res.send(
+        "Password and confirm password does not match. Please try again"
+      );
+      return;
+    }
 
     //else encrypt password with hash and store all their other details as well into database
     const passwordHash = await bcrypt.hash(req.body.password, 20)
     const user = {...req.body, password: passwordHash}
+    console.log(user)
+
   
     //if error in creating user, return error
     //else continue and return json format
     try {
       await userModel.create(user)
     } catch(err) {
+      console.log(err)
       return res.status(500).json({error: "unable to register user"})
     }
     return res.json()
+    res.redirect('/')
   },
 
-  //login
+  login: async(req, res) => {
     //do necessary validations
     //initialise validated Values
+    const validatedValues = req.body
+    let user = null
 
     //try catch statement to see if user matches the one in database
-    //compare password hash to each other
-    //if password hash does not match return error
-    //generate JWT and return a response
+    //else return error
+    try {
+      user = await userModel.findOne({email: validatedValues.email})
+      if (!user) {
+        return res.status(401).json({err: 'email or password is not valid'})
+      } 
+    } catch (err) {
+        return res.status(500).json({err: 'unable to retrieve user information'})
+      }
 
+    //check if password is alright and matches the hash in the one in database
+    const isPasswordOk = await bcrypt.compare(req.body.password, user.password)
+
+    //if password hash does not match return error
+    if (!isPasswordOk) {
+      return res.status(401).json({error: 'email or password is not valid'})
+    }
+    //generate JWT and return a response
+    const userData = {
+      email: user.email,
+      name: user.name,
+    }
+    const token = jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + (60 * 60),
+      data: userData
+    }, process.env.JWT_SECRET)
+
+    //redirect to home loggedin page
+    res.send('successfully logged in')
+    return res.json({token})
+  },
   //profile
     //initialise user and user authentication
     //if user authentication has error return error
@@ -97,3 +139,4 @@ module.exports = {
     //if it does not fit data schema, return error
     //else continue update
 };
+

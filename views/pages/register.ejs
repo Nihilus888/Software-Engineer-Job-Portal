@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Register Testing</title>
+</head>
+
+<body>
+  <header class="bg-orange-500 px-10 py-10 mb-3">
+    <nav class="text-white">
+      <ul class="list-none">
+        <img
+          src="/img/download.png"
+          class="inline-block mr-10 object-contain h-20 w-20"
+        />
+        <li class="inline-block text-2xl italic bold">Random Shop</li>
+        <!--Home portion-->
+        <li class="inline-block pr-4 ml-96 indent-96 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"><a href="/">Home</a></li>
+        <li class="inline-block pr-4 indent-20 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
+          <a href="/Signin">Sign In</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+<!--form-->
+<form action="/register" method="POST">
+  <div class="box-border border-sky-500 h-full w-6/12 border-4 mt-10 mb-10 text-center m-auto shadow-zinc-700 shadow-md opacity-90 mb-10">
+    <h1 class="form-signin-heading mt-10 text-bold text-5xl transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">Sign Up</h1>
+
+    <p class="mt-2">Name:</p>
+    <label for="name"></label>
+    <input
+      type="text"
+      placeholder="name"
+      name="name"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Email:</p>
+    <label for="email"></label>
+    <input
+      type="email"
+      placeholder="email"
+      name="email"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Create a password:</p>
+    <!--change the label for and name to password-->
+    <label for="psw"></label>
+    <input
+      type="password"
+      placeholder="Enter Password"
+      name="password"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Confirm password:</p>
+    <label for="confirmPassword"></label>
+    <input
+      type="password"
+      placeholder="Repeat Password"
+      name="confirmPassword"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Job:</p>
+    <label for="Job"></label>
+    <input
+      type="text"
+      placeholder="Job"
+      name="job"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Position:</p>
+    <label for="position"></label>
+    <input
+      type="text"
+      placeholder="position"
+      name="position"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Experience:</p>
+    <label for="experience"></label>
+    <input
+      type="number"
+      placeholder="experience"
+      name="experience"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <p class="mt-2">Skills:</p>
+    <label for="Skills"></label>
+    <input
+      type="text"
+      placeholder="Skills"
+      name="Skills"
+      class="mt-5 border-2 border-black-800"
+      required
+    />
+
+    <div>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-10"
+        type="submit"
+      >
+        Sign up
+      </button>
+    </div>
+    <p class="mt-10 mb-10">
+      Already have an account?<a href="/Signin" class="text-bold underline"> Sign in</a>
+    </p>
+  </div>
+</form>
+</body>
+

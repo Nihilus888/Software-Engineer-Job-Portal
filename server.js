@@ -7,12 +7,17 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const res = require("express/lib/response");
+const { Router } = require("express");
+const user_controller = require("./controllers/user_controller");
 
 //Will probably insert router here later
 
 const app = express();
 const port = process.env.PORT || 8000;
 const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@generalassembly.odxzs.mongodb.net`;
+
+//set view engine
+app.set('view engine', 'ejs')
 
 //express use
 app.use(express.urlencoded({extended: true}))
@@ -26,6 +31,16 @@ app.get("/", (req, res) => {
   res.send("Success!");
 });
 
+//get test register route page
+app.get('/register', (req, res) => {
+  res.render('pages/register')
+})
+
+//post test register route page
+app.post('/register', user_controller.register)
+
+
+//listening port
 app.listen(port, async () => {
   try {
     await mongoose.connect(connStr, { dbName: "Job-Posting" });
