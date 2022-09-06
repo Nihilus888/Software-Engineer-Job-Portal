@@ -9,6 +9,7 @@ const session = require("express-session");
 const res = require("express/lib/response");
 const { Router } = require("express");
 const user_controller = require("./controllers/user_controller");
+const auth_middleware = require("./middleware/auth_middleware");
 
 //Will probably insert router here later
 
@@ -52,6 +53,13 @@ app.get('/login', (req, res) => {
 
 //post test login route page
 app.post('/login', user_controller.login)
+
+//get test profile route page:
+app.get('/profile', user_controller.profile)
+
+//delete test login route page
+app.post('/logout', user_controller.logout)
+
 
 
 //listening port
