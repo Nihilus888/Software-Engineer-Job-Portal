@@ -102,7 +102,6 @@ module.exports = {
 
   profile: async (req, res) => {
 
-
     let user = null
     let userAuth = res.locals.userAuth
     console.log(userAuth)
@@ -154,24 +153,4 @@ module.exports = {
     });
   },
 
-  //Job controllers for brainstorming
-  //create jobs from user
-  //middleware authentication
-  //if not authenticated or session expire, route back to login page
-  //else go onto create jobs page
-  //POST job information into database
-
-  //save jobs for user
-  //middleware authentication
-  //if save, assign job to user and update it in the user database
-
-  //delete jobs for user
-  //middleware authentication
-  //if delete, delete job from user and update it in the user database
-
-  //update jobs for user
-  //middleware authentication
-  //update job details
-  //if it does not fit data schema, return error
-  //else continue update
 };
