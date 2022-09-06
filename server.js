@@ -21,6 +21,12 @@ app.use(cors({
   origin: '*'
 }))
 
+const jobRoutes = require('./routers/job_routes')
+app.use('/jobs', jobRoutes)
+
+const userRoutes = require('./routers/user_routes')
+app.use('/users', userRoutes)
+
 //render home page
 app.get("/", (req, res) => {
   res.send("Success!");
