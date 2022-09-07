@@ -10,7 +10,34 @@ module.exports = {
 
     postJob: async (req,res) => {
         // perform validations
+        const validationResults = jobVal.jobValidators.validate(req.body)
+
+        if (validationResults.error) {
+            res.json(validationResults.error.details[0].message)
+            return
+        }
+
         // save new job data into database
+        const validatedResults = validationResults.value
+
+        try {
+            await postJobModel.create({
+                user: validatedResults.user,
+                title: validatedResults.title,
+                salary_min: validatedResults.salary_min,
+                salary_max: validatedResults.salary_max,
+                currency: validatedResults.currency,
+                tech_stacks: validatedResults.tech_stacks,
+                position: validatedResults.position,
+                company: validatedResults.company,
+                experience: validatedResults.experience
+            })
+        } catch (err) {
+            res.json(err)
+            return
+        }
+
+        res.json('Job successfully posted!')
     },
 
     listPostedJobs: async (req,res) => {
@@ -50,6 +77,8 @@ module.exports = {
 
     deleteJob: async (req,res) => {
         // find and delete job from database
+        const id = req.params.id
+        await postJobModel.findByIdAndDelete(id)
     },
 
     listSavedJobs: async (req,res) => {
@@ -71,5 +100,7 @@ module.exports = {
 
     removeSavedJob: async (req,res) => {
         // find and remove saved job data from database collection
+        const id = req.params.id
+        await savedJobModel.findByIdAndDelete(id)
     }
 }
