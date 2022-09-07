@@ -55,7 +55,7 @@ app.get('/login', (req, res) => {
 app.post('/login', user_controller.login)
 
 //get test profile route page:
-app.get('/profile', user_controller.profile)
+app.get('/profile', auth_middleware, user_controller.profile)
 
 //delete test login route page
 app.post('/logout', user_controller.logout)

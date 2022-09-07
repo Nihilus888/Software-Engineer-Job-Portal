@@ -21,6 +21,9 @@ router.delete('/saved/:id', jobsController.removeSavedJob)
 // post new jobs route
 router.post('/new', jobsController.postJob)
 
+// list all posted jobs
+router.get('/posted', jobsController.listPostedJobs)
+
 // show single posted job data
 router.get('/posted/:id', jobsController.showPostedJob)
 

@@ -49,7 +49,7 @@ module.exports = {
       return res.status(500).json({ error: "unable to register user" });
     }
 
-    res.redirect("/");
+    res.redirect("/login");
   },
 
   login: async (req, res) => {
@@ -105,8 +105,9 @@ module.exports = {
     console.log('token:',token)
 
     //redirect to profile loggedin page
-    //res.redirect('/profile')
-    res.send('Successfully login')
+    //return token and on frontend success, store the token on localstorage and
+    //whatever else
+    res.json({token})
 
   },
 
@@ -114,13 +115,14 @@ module.exports = {
 
     let user = null
     let userAuth = res.locals.userAuth
-    console.log(userAuth)
+    console.log('userAuth:', userAuth)
 
     if (!userAuth) {
         return res.status(401).json()
     }
     try {
         user = await userModel.findOne({ email: user.email })
+        console.log('user:', user)
         if (!user) {
             return res.status(404).json()
         }
@@ -137,7 +139,9 @@ module.exports = {
         skills: user.skills
     }
 
-    return res.json(userData)
+    console.log('userData: ', userData)
+
+    return res.json({token})
 },
 
   logout: async (req, res) => {
