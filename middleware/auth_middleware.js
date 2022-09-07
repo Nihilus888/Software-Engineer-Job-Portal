@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken')
 module.exports = (req, res, next) => {
   
     // get Authentication header value
+    // In API call, must attach the token in frontend side (client side) and then 
+    // read it from client side
     const authzHeader = req.header('Authorization')
     console.log(authzHeader)
     if (!authzHeader) {
