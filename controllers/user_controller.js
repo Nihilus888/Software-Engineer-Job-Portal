@@ -1,11 +1,21 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
+const userValidators = require('../controllers/validators/users')
 
 module.exports = {
   register: async (req, res) => {
     //get validated values from req.body
-    const validatedValues = req.body;
+    const validateUser = userValidators.createUser.validate(req.body)
+
+    if (validateUser.error) {
+      res.send(validateUser.error)
+      return
+    }
+
+    //get values from validated users
+    const validatedValues = validateUser.value
+
     //find validated users from database
     try {
       const user = await userModel.findOne({ email: validatedValues.email });
