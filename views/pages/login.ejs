@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Random Shop</title>
+</head>
+
+<body>
+  <header class="bg-orange-500 px-10 py-10 mb-3">
+    <nav class="text-white">
+      <ul class="list-none">
+        <img
+          src="/img/download.png"
+          class="inline-block mr-10 object-contain h-20 w-20 text-center m-auto"
+        />
+        <li class="inline-block text-2xl italic bold">Random Shop</li>
+        <!--Home portion-->
+        <li class="inline-block pr-4 ml-96 indent-96 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"><a href="/">Home</a></li>
+        <li class="inline-block pr-4 indent-20 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
+          <a href="/Signup">Sign Up</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="box-border border-sky-500 h-fill w-6/12 border-4 mt-10 mb-10 text-center m-auto shadow-zinc-700 shadow-md opacity-90 neutral">
+    <form id="loginForm" class="form-signin" method="POST" action="/login">
+      <h2 class="form-signin-heading mt-10 text-bold text-5xl">Sign in</h2>
+      <div>
+        <p class="mt-10 mb-5">Email:</p>
+        <input
+          id="email_input"
+          name="email"
+          autofocus="on"
+          type="text"
+          autocomplete="off"
+          class="border-2 border-black-800"
+          placeholder="Email"
+        />
+      </div>
+
+      <div>
+        <p class="mt-10 mb-5">Password:</p>
+        <input
+          id="password_input"
+          name="password"
+          type="password"
+          autocomplete="off"
+          class="border-2 border-black-800"
+          placeholder="Password"
+        />
+      </div>
+
+      <div>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-10 mb-10"
+          type="submit"
+        >
+          Sign in
+        </button>
+      </div>
+
+      <div>
+        <p class="mb-10">
+          Don't have an account? <a href="/Signup" class="underline"> Sign up</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</body>

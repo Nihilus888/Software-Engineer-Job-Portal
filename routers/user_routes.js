@@ -9,3 +9,5 @@ const router = express.Router()
 //logout route
 
 //profile route with creating jobs and jobs that I applied to 
+
+module.exports = router
