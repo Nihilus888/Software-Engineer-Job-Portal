@@ -105,8 +105,7 @@ module.exports = {
     console.log('token:',token)
 
     //redirect to profile loggedin page
-    //res.redirect('/profile')
-    res.send('Successfully login')
+    return res.json({token})
 
   },
 
