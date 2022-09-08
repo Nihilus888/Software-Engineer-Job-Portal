@@ -29,11 +29,10 @@ const userSchema = new mongoose.Schema ({
         type: Number,
         required: true
     },
-
-    skills: {
-        type: [],
-        required: true
-    }
+    
+    // skills: {
+    //     type: String,
+    // }
 
 })
 
