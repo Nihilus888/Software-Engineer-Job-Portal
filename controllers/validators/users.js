@@ -11,7 +11,10 @@ const userValidators = {
     job: Joi.string().min(3).required(),
     position: Joi.string().min(3),
     experience: Joi.number().min(1).required(),
-    skills: Joi.array().items(Joi.object().keys().min(1)),
+    skills: Joi.array().items(Joi.object({
+        id: Joi.number(),
+        skill: Joi.string()
+    })),
     if(err) {
       console.log(err);
     },
