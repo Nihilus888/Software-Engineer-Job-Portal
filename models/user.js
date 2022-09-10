@@ -30,9 +30,9 @@ const userSchema = new mongoose.Schema ({
         required: true
     },
     
-    // skills: {
-    //     type: String,
-    // }
+    skills: {
+        type: [],
+    }
 
 })
 

@@ -8,8 +8,24 @@ const postingJobsSchema = new mongoose.Schema({
         required: true
     },
 
+    company: {
+        type: String,
+        required: true
+    },
+    
+
     title: {
         type: String,
+        required: true
+    },
+
+    position: {
+        type: String,
+        required: true
+    },
+    
+    experience: {
+        type: Number,
         required: true
     },
 
@@ -32,21 +48,6 @@ const postingJobsSchema = new mongoose.Schema({
         type: [],
         required: true
     },
-
-    position: {
-        type: String,
-        required: true
-    },
-
-    company: {
-        type: String,
-        required: true
-    },
-    
-    experience: {
-        type: Number,
-        required: true
-    } 
 
 })
 

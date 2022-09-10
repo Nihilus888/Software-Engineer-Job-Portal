@@ -18,6 +18,7 @@ module.exports = {
     //get values from validated users
     const validatedValues = validateUser.value
     console.log('validatedValues: ', validatedValues)
+    console.log('validatedValuesSkill', validatedValues.skills)
 
     //find validated users from database
     try {
