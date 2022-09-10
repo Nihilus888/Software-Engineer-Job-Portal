@@ -1,7 +1,8 @@
 const Joi = require('joi')
 
-const jobValidators = {
-    createJobs: Joi.object({
+const editJobValidators = {
+    editJobs: Joi.object({
+        _id: Joi.string().required(),
         company: Joi.string().required(),
         title: Joi.string().required(),
         position: Joi.string().required(),
@@ -13,6 +14,7 @@ const jobValidators = {
         skills: Joi.array().items(Joi.object({
             skill: Joi.string()
         })),
+        __v: Joi.number().required(),
 
         if(err) {
             console.log(err)
@@ -20,4 +22,4 @@ const jobValidators = {
     })
 }
 
-module.exports = jobValidators
+module.exports = editJobValidators

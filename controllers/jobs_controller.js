@@ -1,6 +1,7 @@
 const postJobModel = require('../models/posting_jobs')
 const savedJobModel = require('../models/saved_jobs')
 const jobVal = require('./validators/jobs')
+const editJobVal = require('./validators/edit_jobs')
 
 module.exports = {
     listJobs: async (req,res) => {
@@ -73,7 +74,7 @@ module.exports = {
             res.json('No such job found')
         }
 
-        const validationResults = jobVal.createJobs.validate(req.body)
+        const validationResults = editJobVal.editJobs.validate(req.body)
         console.log('validationResults:',validationResults)
 
         if (validationResults.error) {
