@@ -2,14 +2,19 @@ const Joi = require('joi')
 
 const jobValidators = {
     createJobs: Joi.object({
-        title: Joi.string().min(6).required(),
-        salary_min: Joi.number().min(3),
-        salary_max: Joi.number().max(8),
-        currency: Joi.string().min(4).required(),
-        tech_stacks: Joi.string().min(5).required(),
-        position: Joi.string().min(4).required(),
+        _id: Joi.string().required(),
         company: Joi.string().required(),
+        title: Joi.string().required(),
+        position: Joi.string().required(),
         experience: Joi.number(),
+        salary_min: Joi.number().min(1000).required(),
+        salary_max: Joi.number().required(),
+        currency: Joi.string().required(),
+        experience: Joi.number(),
+        skills: Joi.array().items(Joi.object({
+            skill: Joi.string()
+        })),
+        __v: Joi.number().required(),
 
         if(err) {
             console.log(err)
