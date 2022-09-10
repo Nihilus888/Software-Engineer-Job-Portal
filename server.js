@@ -9,6 +9,7 @@ const session = require("express-session");
 const res = require("express/lib/response");
 const { Router } = require("express");
 const user_controller = require("./controllers/user_controller");
+const jobsController = require("./controllers/jobs_controller")
 const auth_middleware = require("./middleware/auth_middleware");
 
 //Will probably insert router here later
@@ -60,7 +61,8 @@ app.get('/profile', auth_middleware, user_controller.profile)
 //delete test login route page
 app.post('/logout', user_controller.logout)
 
-
+//testing post job route
+app.post('/new', jobsController.postJob)
 
 //listening port
 app.listen(port, async () => {
