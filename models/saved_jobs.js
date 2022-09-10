@@ -28,7 +28,7 @@ const savedJobsSchema = new mongoose.Schema({
         required: true,
     },
 
-    tech_stacks: {
+    skills: {
         type: [],
     },
 

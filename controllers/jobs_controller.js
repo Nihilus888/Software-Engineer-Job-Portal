@@ -65,13 +65,16 @@ module.exports = {
     editJob: async (req,res) => {
         // perform validations
         const id = req.params.id
+        console.log('id:', id)
         const foundJob = await postJobModel.findById(id)
+        console.log('foundJob:', foundJob)
 
         if (!foundJob) {
             res.json('No such job found')
         }
 
-        const validationResults = jobVal.jobValidators.validate(req.body)
+        const validationResults = jobVal.createJobs.validate(req.body)
+        console.log('validationResults:',validationResults)
 
         if (validationResults.error) {
             res.json(validationResults.error.details[0].message)
@@ -80,6 +83,7 @@ module.exports = {
 
         // find and update job data into database
         const validatedResults = validationResults.value
+        console.log('ValidationResults: ', validatedResults)
         await postJobModel.findByIdAndUpdate(id, validatedResults)
         res.json(await postJobModel.findById(id))
     },

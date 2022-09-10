@@ -61,8 +61,6 @@ app.get('/profile', auth_middleware, user_controller.profile)
 //delete test login route page
 app.post('/logout', user_controller.logout)
 
-//testing post job route
-app.post('/new', jobsController.postJob)
 
 //listening port
 app.listen(port, async () => {
