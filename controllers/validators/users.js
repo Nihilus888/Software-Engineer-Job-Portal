@@ -15,6 +15,7 @@ const userValidators = {
         id: Joi.number(),
         skill: Joi.string()
     })),
+    
     if(err) {
       console.log(err);
     },
