@@ -10,7 +10,8 @@ module.exports = {
 
     postJob: async (req,res) => {
         // perform validations
-        const validationResults = jobVal.jobValidators.validate(req.body)
+        const validationResults = jobVal.createJobs.validate(req.body)
+        console.log("validationResults:", validationResults)
 
         if (validationResults.error) {
             res.json(validationResults.error.details[0].message)
@@ -19,24 +20,26 @@ module.exports = {
 
         // save new job data into database
         const validatedResults = validationResults.value
+        console.log("validatedResults: ",validatedResults)
 
         try {
             await postJobModel.create({
                 user: validatedResults.user,
+                company: validatedResults.company,
                 title: validatedResults.title,
+                position: validatedResults.position,
+                experience: validatedResults.experience,
                 salary_min: validatedResults.salary_min,
                 salary_max: validatedResults.salary_max,
                 currency: validatedResults.currency,
-                tech_stacks: validatedResults.tech_stacks,
-                position: validatedResults.position,
-                company: validatedResults.company,
-                experience: validatedResults.experience
+                skills: validatedResults.skills,
             })
         } catch (err) {
+            console.log(err)
             res.json(err)
             return
         }
-
+        console.log('Job successfully posted')
         res.json('Job successfully posted!')
     },
 
