@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 
 const postingJobsSchema = new mongoose.Schema({
+
   // user: {
   //     type: mongoose.Schema.Types.ObjectId,
   //     ref: 'User',
   // },
+
+  id: {
+    type: String,
+  },
 
   company: {
     type: String,
