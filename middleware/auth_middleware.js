@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
-  
+    console.log(req.header('Authorization'))
+
     // get Authentication header value
-    // In API call, must attach the token in frontend side (client side) and then 
-    // read it from client side
     const authzHeader = req.header('Authorization')
-    console.log(authzHeader)
     if (!authzHeader) {
         return res.status(401).json({
         message: "Authentication details empty"
@@ -32,7 +30,7 @@ module.exports = (req, res, next) => {
     const verified = jwt.verify(token, process.env.JWT_SECRET)
 
     if (verified) {
-        res.locals.userAuth = verified
+        res.locals.userAuth = verified.data //user._id
         next()
         return
     }
