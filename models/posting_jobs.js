@@ -9,7 +9,6 @@ const postingJobsSchema = new mongoose.Schema({
 
   id: {
     type: String,
-    required: true,
   },
 
   company: {
