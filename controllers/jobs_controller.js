@@ -9,11 +9,8 @@ module.exports = {
         // list all jobs in JSON format
         const searchStr = req.body.search
         let pg = req.body.pg
-<<<<<<< HEAD
+
         if(!pg) {
-=======
-        if (pg === '') {
->>>>>>> bc61680 (search function to NodeFlair API completed)
             pg = 1
         }
         const response = await fetch(`https://www.nodeflair.com/api/v2/jobs?query=${searchStr}&page=${pg}`)
