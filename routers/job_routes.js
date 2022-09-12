@@ -4,7 +4,7 @@ const jobsController = require('../controllers/jobs_controller')
 const router = express.Router()
 
 // list all jobs from search
-router.get('/search', jobsController.listJobs)
+router.post('/search', jobsController.listJobs)
 
 // saved job route
 router.post('/saved', jobsController.saveJob)

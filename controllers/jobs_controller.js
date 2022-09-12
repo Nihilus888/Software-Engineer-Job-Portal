@@ -8,10 +8,28 @@ module.exports = {
         // perform API call to respective API from external party
         // list all jobs in JSON format
         const searchStr = req.body.search
-        const pg = req.body.pg
+        let pg = req.body.pg
+
+        if(!pg) {
+            pg = 1
+        }
         const response = await fetch(`https://www.nodeflair.com/api/v2/jobs?query=${searchStr}&page=${pg}`)
         const data = await response.json()
-        res.json(data)
+        let result = []
+        data.job_listings.forEach((job,idx) => {
+            result[idx] = {
+                company: job.company,
+                title: job.title,
+                position: job.position,
+                experience: job.seniority[0] ? job.seniority[0] : 'Not Stated',
+                salary_min: job.salary_min ? job.salary_min : '',
+                salary_max: job.salary_max,
+                currency: job.currency,
+                skills: job.tech_stacks,
+                link: 'https://www.nodeflair.com'+job.job_path
+            }
+        })
+        res.json(result)
         return
     },
 
