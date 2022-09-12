@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 const jobValidators = {
     createJobs: Joi.object({
-        user: Joi.string().required(),
+        user: Joi.object(),
         company: Joi.string().required(),
         title: Joi.string().required(),
         position: Joi.string().required(),

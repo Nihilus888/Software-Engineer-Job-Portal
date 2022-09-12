@@ -1,9 +1,11 @@
-const jwtDecode = require("jwt-decode");
+const jwt_decode = require('jwt-decode');
 const jwt = require("jsonwebtoken");
 const postJobModel = require("../models/posting_jobs");
 const savedJobModel = require("../models/saved_jobs");
 const jobVal = require("./validators/jobs");
 const editJobVal = require("./validators/edit_jobs");
+const { default: jwtDecode } = require('jwt-decode');
+const mongoose = require('mongoose')
 
 module.exports = {
   listJobs: async (req, res) => {
@@ -21,6 +23,13 @@ module.exports = {
 
   postJob: async (req, res) => {
     // perform validations
+    let token = res.locals.userAuth
+    console.log('token: ', token)
+    let Id = token.data.id
+    console.log('Id:', Id)
+    let userId = mongoose.Types.ObjectId(Id)
+    console.log('userId: ', userId)
+    
 
     const validationResults = jobVal.createJobs.validate(req.body);
     console.log("validationResults:", validationResults);
@@ -35,8 +44,9 @@ module.exports = {
     console.log("validatedResults: ", validatedResults);
 
     try {
+      console.log('userId2:', userId)
       await postJobModel.create({
-        user: validatedResults.user,
+        user: userId,
         company: validatedResults.company,
         title: validatedResults.title,
         position: validatedResults.position,

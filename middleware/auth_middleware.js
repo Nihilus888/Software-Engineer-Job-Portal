@@ -1,25 +1,16 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
-    console.log(req.header('Authorization'))
-
     // get Authentication header value
-    const authzHeader = req.header('Authorization')
-    if (!authzHeader) {
+    
+    const token = req.header('Authorization')
+    console.log('token:', token)
+    if (!token) {
         return res.status(401).json({
         message: "Authentication details empty"
         })
     }
-
-    // check for "Bearer " 
-    if (authzHeader.slice(0, 7) !== 'Bearer ') {
-        return res.status(401).json({
-          message: "Invalid auth type"
-        })
-    }
     
-    // get value after "Bearer ", the actual JWT token
-    const token = authzHeader.slice(7)
     if (token.length === 0) {
         return res.status(401).json({
             message: "Invalid auth token"
@@ -28,9 +19,13 @@ module.exports = (req, res, next) => {
 
     // set global var userAuth if JWT is valid
     const verified = jwt.verify(token, process.env.JWT_SECRET)
+    console.log('verified:', verified)
 
     if (verified) {
-        res.locals.userAuth = verified.data //user._id
+        //user._id
+        //call res.locals.userAuth anywhere to get user information there
+        res.locals.userAuth = verified
+        console.log('res.locals.userAuth: ', res.locals.userAuth)
         next()
         return
     }
