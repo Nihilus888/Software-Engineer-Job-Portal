@@ -29,7 +29,7 @@ router.get('/posted', jobsController.listPostedJobs)
 router.get('/posted/:id', jobsController.showPostedJob)
 
 // update job postings
-router.patch('/posted/:id', auth_middleware, jobsController.editJob)
+router.patch('/posted/:id', jobsController.editJob)
 
 // remove posted jobs route
 router.delete('/posted/:id', jobsController.deleteJob)
