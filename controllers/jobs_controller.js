@@ -127,6 +127,7 @@ module.exports = {
     const id = req.params.id;
     await postJobModel.findByIdAndDelete(id);
     console.log('delete successful')
+    res.json('delete successfull')
   },
 
   listSavedJobs: async (req, res) => {
