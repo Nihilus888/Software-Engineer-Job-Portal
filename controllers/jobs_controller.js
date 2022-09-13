@@ -96,6 +96,7 @@ module.exports = {
 
   editJob: async (req, res) => {
     // perform validations
+    // perform validations
     console.log('req.session:', req.session)
     const id = req.params.id;
     console.log("id:", id);
@@ -125,6 +126,7 @@ module.exports = {
     // find and delete job from database
     const id = req.params.id;
     await postJobModel.findByIdAndDelete(id);
+    console.log('delete successful')
   },
 
   listSavedJobs: async (req, res) => {

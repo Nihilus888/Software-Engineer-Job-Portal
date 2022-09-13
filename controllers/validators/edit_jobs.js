@@ -3,6 +3,7 @@ const Joi = require('joi')
 const editJobValidators = {
     editJobs: Joi.object({
         _id: Joi.string().required(),
+        user: Joi.string().required(),
         company: Joi.string().required(),
         title: Joi.string().required(),
         position: Joi.string().required(),
