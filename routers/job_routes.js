@@ -1,5 +1,6 @@
 const express = require('express')
 const jobsController = require('../controllers/jobs_controller')
+const auth_middleware = require('../middleware/auth_middleware')
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ router.get('/saved/:id', jobsController.showSavedJob)
 router.delete('/saved/:id', jobsController.removeSavedJob)
 
 // post new jobs route
-router.post('/new', jobsController.postJob)
+router.post('/new', auth_middleware, jobsController.postJob)
 
 // list all posted jobs
 router.get('/posted', jobsController.listPostedJobs)

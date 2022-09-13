@@ -12,6 +12,7 @@ const user_controller = require("./controllers/user_controller");
 const jobsController = require("./controllers/jobs_controller")
 const auth_middleware = require("./middleware/auth_middleware");
 
+
 //Will probably insert router here later
 
 const app = express();
@@ -33,34 +34,6 @@ app.use('/jobs', jobRoutes)
 
 const userRoutes = require('./routers/user_routes')
 app.use('/users', userRoutes)
-
-//render home page
-app.get("/", (req, res) => {
-  res.send("Success!");
-});
-
-//get test register route page
-app.get('/register', (req, res) => {
-  res.render('pages/register')
-})
-
-//post test register route page
-app.post('/register', user_controller.register)
-
-//get test login route page
-app.get('/login', (req, res) => {
-  res.render('pages/login')
-})
-
-//post test login route page
-app.post('/login', user_controller.login)
-
-//get test profile route page:
-app.get('/profile', auth_middleware, user_controller.profile)
-
-//delete test login route page
-app.post('/logout', user_controller.logout)
-
 
 //listening port
 app.listen(port, async () => {
