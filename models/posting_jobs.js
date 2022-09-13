@@ -1,11 +1,12 @@
+const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const postingJobsSchema = new mongoose.Schema({
-
-  // user: {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'User',
-  // },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
 
   id: {
     type: String,

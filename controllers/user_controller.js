@@ -73,6 +73,7 @@ module.exports = {
     try {
       user = await userModel.findOne({ email: validatedValues.email });
       console.log('user:', user)
+      console.log()
       if (!user) {
         return res.status(401).json({ err: "email or password is not valid" });
       }
@@ -95,12 +96,13 @@ module.exports = {
     //generate JWT and return a response
     const userData = {
       name: user.name,
+      id: user._id,
       email: user.email,
       job: user.job,
       experience: user.experience,
       skills: user.skills
   }
-
+ 
   console.log('userData:', userData)
 
   const token = jwt.sign(
