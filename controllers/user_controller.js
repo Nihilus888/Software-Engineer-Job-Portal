@@ -102,7 +102,7 @@ module.exports = {
       experience: user.experience,
       skills: user.skills
   }
-
+ 
   console.log('userData:', userData)
 
   const token = jwt.sign(
