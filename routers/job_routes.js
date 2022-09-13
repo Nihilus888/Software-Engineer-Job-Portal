@@ -5,7 +5,7 @@ const auth_middleware = require('../middleware/auth_middleware')
 const router = express.Router()
 
 // list all jobs from search
-router.get('/search', jobsController.listJobs)
+router.post('/search', jobsController.listJobs)
 
 // saved job route
 router.post('/saved', jobsController.saveJob)
