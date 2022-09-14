@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 const userValidators = require('../controllers/validators/users')
+const mongoose = require('mongoose')
 
 module.exports = {
   register: async (req, res) => {
@@ -124,13 +125,6 @@ module.exports = {
 
   profile: async (req, res) => {
 
-    let token = res.locals.userAuth
-    console.log('token: ', token)
-    let Id = token.data.id
-    console.log('Id:', Id)
-    let userId = mongoose.Types.ObjectId(Id)
-    console.log('userId: ', userId)
-
     let user = null
     let userAuth = res.locals.userAuth
     console.log('userAuth:', userAuth)
@@ -151,9 +145,10 @@ module.exports = {
 
     const userData = {
       name: user.name,
-      id: user._id,
       email: user.email,
+      password: password,
       job: user.job,
+      position: user.position,
       experience: user.experience,
       skills: user.skills,
     }
@@ -162,6 +157,20 @@ module.exports = {
 
     return res.json(userData)
 },
+
+  editProfile: async (req, res) => {
+    let token = res.locals.userAuth
+    console.log('token: ', token)
+    let Id = token.data.id
+    console.log('Id:', Id)
+    let userId = mongoose.Types.ObjectId(Id)
+    console.log('userId: ', userId)
+
+
+    await userModel.findByIdAndUpdate(userId);
+    console.log('update successful')
+    res.json('update successful')
+  },
 
   logout: async (req, res) => {
     req.session.user = null;
