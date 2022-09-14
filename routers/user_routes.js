@@ -1,6 +1,6 @@
 const express = require('express')
 const userController = require('../controllers/user_controller')
-const authMiddleware = require('../middleware/auth_middleware')
+const auth_middleware = require('../middleware/auth_middleware')
 const user = require('../models/user')
 
 const router = express.Router()
@@ -15,6 +15,6 @@ router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 
 //profile route with creating jobs and jobs that I applied to 
-router.get('/profile', authMiddleware, userController.profile)
+router.get('/profile/:id', userController.profile)
 
 module.exports = router

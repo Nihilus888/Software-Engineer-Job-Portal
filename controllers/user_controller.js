@@ -124,6 +124,13 @@ module.exports = {
 
   profile: async (req, res) => {
 
+    let token = res.locals.userAuth
+    console.log('token: ', token)
+    let Id = token.data.id
+    console.log('Id:', Id)
+    let userId = mongoose.Types.ObjectId(Id)
+    console.log('userId: ', userId)
+
     let user = null
     let userAuth = res.locals.userAuth
     console.log('userAuth:', userAuth)
@@ -143,16 +150,17 @@ module.exports = {
     }
 
     const userData = {
-        name: user.name,
-        email: user.email,
-        job: user.job,
-        experience: user.experience,
-        skills: user.skills
+      name: user.name,
+      id: user._id,
+      email: user.email,
+      job: user.job,
+      experience: user.experience,
+      skills: user.skills,
     }
 
     console.log('userData: ', userData)
 
-    return res.json({token})
+    return res.json(userData)
 },
 
   logout: async (req, res) => {
