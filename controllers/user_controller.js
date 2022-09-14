@@ -1,25 +1,26 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
-const userValidators = require('../controllers/validators/users')
-const mongoose = require('mongoose')
+const userValidators = require("../controllers/validators/users");
+const mongoose = require("mongoose");
+const user = require("../models/user");
 
 module.exports = {
   register: async (req, res) => {
     //get validated values from req.body
-    const validateUser = userValidators.createUser.validate(req.body)
-    console.log('validatedUser:', validateUser)
+    const validateUser = userValidators.createUser.validate(req.body);
+    console.log("validatedUser:", validateUser);
 
     if (validateUser.error) {
-      console.log('validateUser.error: ', validateUser.error)
-      res.send(validateUser.error)
-      return
+      console.log("validateUser.error: ", validateUser.error);
+      res.send(validateUser.error);
+      return;
     }
 
     //get values from validated users
-    const validatedValues = validateUser.value
-    console.log('validatedValues: ', validatedValues)
-    console.log('validatedValuesSkill', validatedValues.skills)
+    const validatedValues = validateUser.value;
+    console.log("validatedValues: ", validatedValues);
+    console.log("validatedValuesSkill", validatedValues.skills);
 
     //find validated users from database
     try {
@@ -29,7 +30,7 @@ module.exports = {
         return res.status(409).json({ error: "user already exists" });
       }
     } catch (err) {
-      console.log('find err: ', err);
+      console.log("find err: ", err);
       return res.status(500).json({ error: "unable to get user" });
     }
 
@@ -42,39 +43,38 @@ module.exports = {
       return;
     }
     */
-    
 
     //else encrypt password with hash and store all their other details as well into database
     const passwordHash = await bcrypt.hash(req.body.password, 5);
     const user = { ...req.body, password: passwordHash };
-    console.log('passwordHash: ', passwordHash)
-    console.log('user: ', user)
+    console.log("passwordHash: ", passwordHash);
+    console.log("user: ", user);
 
     //if error in creating user, return error
     //else continue and return json format
     try {
-      await userModel.create(user)
-      console.log('successfully created user')
+      await userModel.create(user);
+      console.log("successfully created user");
     } catch (err) {
-      console.log('create err: ', err);
+      console.log("create err: ", err);
       return res.status(500).json({ error: "unable to register user" });
     }
-    return res.json('user successfully registered')
+    return res.json("user successfully registered");
   },
 
   login: async (req, res) => {
     //do necessary validations
     //initialise validated Values
     const validatedValues = req.body;
-    console.log('validatedValues.email:', validatedValues.email);
+    console.log("validatedValues.email:", validatedValues.email);
     let user = null;
 
     //try catch statement to see if user matches the one in database
     //else return error
     try {
       user = await userModel.findOne({ email: validatedValues.email });
-      console.log('user:', user)
-      console.log()
+      console.log("user:", user);
+      console.log();
       if (!user) {
         return res.status(401).json({ err: "email or password is not valid" });
       }
@@ -87,7 +87,7 @@ module.exports = {
 
     //check if password is alright and matches the hash in the one in database
     const isPasswordOk = await bcrypt.compare(req.body.password, user.password);
-    console.log('isPasswordOk: ', isPasswordOk)
+    console.log("isPasswordOk: ", isPasswordOk);
 
     //if password hash does not match return error
     if (!isPasswordOk) {
@@ -101,12 +101,12 @@ module.exports = {
       email: user.email,
       job: user.job,
       experience: user.experience,
-      skills: user.skills
-  }
- 
-  console.log('userData:', userData)
+      skills: user.skills,
+    };
 
-  const token = jwt.sign(
+    console.log("userData:", userData);
+
+    const token = jwt.sign(
       {
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
         data: userData,
@@ -114,33 +114,31 @@ module.exports = {
       process.env.JWT_SECRET
     );
 
-    console.log('token:',token)
+    console.log("token:", token);
 
     //redirect to profile loggedin page
     //return token and on frontend success, store the token on localstorage and
     //whatever else
-    res.json({token})
-
+    res.json({ token });
   },
 
   profile: async (req, res) => {
-
-    let user = null
-    let userAuth = res.locals.userAuth
-    console.log('userAuth:', userAuth)
+    let user = null;
+    let userAuth = res.locals.userAuth;
+    console.log("userAuth:", userAuth);
 
     if (!userAuth) {
-        return res.status(401).json()
+      return res.status(401).json();
     }
     try {
-        user = await userModel.findOne({ email: user.email })
-        console.log('user:', user)
-        if (!user) {
-            return res.status(404).json()
-        }
+      user = await userModel.findOne({ email: user.email });
+      console.log("user:", user);
+      if (!user) {
+        return res.status(404).json();
+      }
     } catch (err) {
-        console.log(err)
-        return res.status(500).json({error: "failed to get user"})
+      console.log(err);
+      return res.status(500).json({ error: "failed to get user" });
     }
 
     const userData = {
@@ -151,14 +149,27 @@ module.exports = {
       position: user.position,
       experience: user.experience,
       skills: user.skills,
-    }
+    };
 
-    console.log('userData: ', userData)
+    console.log("userData: ", userData);
 
-    return res.json(userData)
-},
+    return res.json(userData);
+  },
 
   editProfile: async (req, res) => {
+    let token = res.locals.userAuth;
+    console.log("token: ", token);
+    let Id = token.data.id;
+    console.log("Id:", Id);
+    let userId = mongoose.Types.ObjectId(Id);
+    console.log("userId: ", userId);
+
+    await userModel.findByIdAndUpdate(userId);
+    console.log("update successful");
+    res.json("update successful");
+  },
+
+  deleteProfile: async (req, res) => {
     let token = res.locals.userAuth
     console.log('token: ', token)
     let Id = token.data.id
@@ -166,10 +177,13 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id)
     console.log('userId: ', userId)
 
-
-    await userModel.findByIdAndUpdate(userId);
-    console.log('update successful')
-    res.json('update successful')
+    try {
+      await user.findByIdAndDelete(userId);
+      console.log('user: ', user)
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("delete profile successful");
   },
 
   logout: async (req, res) => {
@@ -194,5 +208,4 @@ module.exports = {
       res.send("successfully logged out");
     });
   },
-
 };
