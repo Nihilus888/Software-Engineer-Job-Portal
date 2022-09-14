@@ -141,7 +141,7 @@ module.exports = {
     const userData = {
       name: user.name,
       email: user.email,
-      password: user.password,
+      password: '',
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -172,8 +172,13 @@ module.exports = {
     const validatedResults = validationResults.value;
     console.log("ValidationResults: ", validatedResults);
 
+    const passwordHash = await bcrypt.hash(req.body.password, 5);
+    const userInformation = { ...req.body, password: passwordHash };
+    console.log("passwordHash: ", passwordHash);
+    console.log("user: ", user);
+
     try {
-      await user.findByIdAndUpdate(userId, validatedResults);
+      await user.findByIdAndUpdate(userId, userInformation);
     } catch (err) {
       console.log(err);
     }
