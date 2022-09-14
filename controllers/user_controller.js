@@ -123,7 +123,12 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    let user = null;
+    let token = res.locals.userAuth
+    console.log('token: ', token)
+    let Id = token.data.id
+    console.log('Id:', Id)
+    let userId = mongoose.Types.ObjectId(Id)
+    console.log('userId: ', userId)
     let userAuth = res.locals.userAuth;
     console.log("userAuth:", userAuth);
 
@@ -164,7 +169,22 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    await userModel.findByIdAndUpdate(userId);
+    const validationResults =  userValidators.createUser.validate(req.body);;
+    console.log("validationResults:", validationResults);
+
+    if (validationResults.error) {
+      res.json(validationResults.error.details[0].message);
+      return;
+    }
+    
+    const validatedResults = validationResults.value;
+    console.log("ValidationResults: ", validatedResults);
+
+    try {
+      await user.findByIdAndUpdate(userId, validatedResults);
+    } catch (err) {
+      console.log(err);
+    }
     console.log("update successful");
     res.json("update successful");
   },
@@ -184,6 +204,7 @@ module.exports = {
       console.log(err);
     }
     console.log("delete profile successful");
+    res.json('delete successful')
   },
 
   logout: async (req, res) => {
