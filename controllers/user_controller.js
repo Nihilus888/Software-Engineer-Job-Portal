@@ -123,20 +123,12 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    let token = res.locals.userAuth
-    console.log('token: ', token)
-    let Id = token.data.id
-    console.log('Id:', Id)
-    let userId = mongoose.Types.ObjectId(Id)
-    console.log('userId: ', userId)
-    let userAuth = res.locals.userAuth;
-    console.log("userAuth:", userAuth);
+    let user = req.params.id
+    console.log('req.params.id:', req.params.id)
+    let userId = mongoose.Types.ObjectId(user)
 
-    if (!userAuth) {
-      return res.status(401).json();
-    }
     try {
-      user = await userModel.findOne({ email: user.email });
+      user = await userModel.findOne({ _id: userId });
       console.log("user:", user);
       if (!user) {
         return res.status(404).json();
@@ -149,7 +141,7 @@ module.exports = {
     const userData = {
       name: user.name,
       email: user.email,
-      password: password,
+      password: user.password,
       job: user.job,
       position: user.position,
       experience: user.experience,
