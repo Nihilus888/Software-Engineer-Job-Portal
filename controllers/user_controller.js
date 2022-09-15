@@ -123,9 +123,9 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    let user = req.params.id
-    console.log('req.params.id:', req.params.id)
-    let userId = mongoose.Types.ObjectId(user)
+    let user = req.params.id;
+    console.log("req.params.id:", req.params.id);
+    let userId = mongoose.Types.ObjectId(user);
 
     try {
       user = await userModel.findOne({ _id: userId });
@@ -141,7 +141,7 @@ module.exports = {
     const userData = {
       name: user.name,
       email: user.email,
-      password: '',
+      password: "",
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -202,6 +202,24 @@ module.exports = {
     }
     console.log("delete profile successful");
     res.json('delete successful')
+  },
+
+  deleteProfile: async (req, res) => {
+    let token = res.locals.userAuth;
+    console.log("token: ", token);
+    let Id = token.data.id;
+    console.log("Id:", Id);
+    let userId = mongoose.Types.ObjectId(Id);
+    console.log("userId: ", userId);
+
+    try {
+      await user.findByIdAndDelete(userId);
+      console.log("user: ", user);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("delete profile successful");
+    res.json("delete successful");
   },
 
   logout: async (req, res) => {
