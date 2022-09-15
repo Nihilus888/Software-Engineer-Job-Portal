@@ -123,9 +123,9 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    let user = req.params.id
-    console.log('req.params.id:', req.params.id)
-    let userId = mongoose.Types.ObjectId(user)
+    let user = req.params.id;
+    console.log("req.params.id:", req.params.id);
+    let userId = mongoose.Types.ObjectId(user);
 
     try {
       user = await userModel.findOne({ _id: userId });
@@ -141,7 +141,7 @@ module.exports = {
     const userData = {
       name: user.name,
       email: user.email,
-      password: '',
+      password: "",
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -161,24 +161,29 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    const validationResults =  userValidators.createUser.validate(req.body);;
+    const validationResults = userValidators.editUsers.validate(req.body);
     console.log("validationResults:", validationResults);
 
     if (validationResults.error) {
       res.json(validationResults.error.details[0].message);
       return;
     }
-    
+
     const validatedResults = validationResults.value;
     console.log("ValidationResults: ", validatedResults);
 
     const passwordHash = await bcrypt.hash(req.body.password, 5);
     const userInformation = { ...req.body, password: passwordHash };
     console.log("passwordHash: ", passwordHash);
-    console.log("user: ", user);
+    console.log("userInformation: ", userInformation);
 
     try {
-      await user.findByIdAndUpdate(userId, userInformation);
+      await user.findById(Id);
+    } catch (err) {
+      console.log(err);
+    }
+    try {
+      await user.updateOne(userInformation);
     } catch (err) {
       console.log(err);
     }
@@ -187,21 +192,21 @@ module.exports = {
   },
 
   deleteProfile: async (req, res) => {
-    let token = res.locals.userAuth
-    console.log('token: ', token)
-    let Id = token.data.id
-    console.log('Id:', Id)
-    let userId = mongoose.Types.ObjectId(Id)
-    console.log('userId: ', userId)
+    let token = res.locals.userAuth;
+    console.log("token: ", token);
+    let Id = token.data.id;
+    console.log("Id:", Id);
+    let userId = mongoose.Types.ObjectId(Id);
+    console.log("userId: ", userId);
 
     try {
       await user.findByIdAndDelete(userId);
-      console.log('user: ', user)
+      console.log("user: ", user);
     } catch (err) {
       console.log(err);
     }
     console.log("delete profile successful");
-    res.json('delete successful')
+    res.json("delete successful");
   },
 
   logout: async (req, res) => {
