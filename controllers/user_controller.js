@@ -161,34 +161,47 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    const validationResults = userValidators.editUsers.validate(req.body);
+    const validationResults =  userValidators.createUser.validate(req.body);;
     console.log("validationResults:", validationResults);
 
     if (validationResults.error) {
       res.json(validationResults.error.details[0].message);
       return;
     }
-
+    
     const validatedResults = validationResults.value;
     console.log("ValidationResults: ", validatedResults);
 
     const passwordHash = await bcrypt.hash(req.body.password, 5);
     const userInformation = { ...req.body, password: passwordHash };
     console.log("passwordHash: ", passwordHash);
-    console.log("userInformation: ", userInformation);
+    console.log("user: ", user);
 
     try {
-      await user.findById(Id);
-    } catch (err) {
-      console.log(err);
-    }
-    try {
-      await user.updateOne(userInformation);
+      await user.findByIdAndUpdate(userId, userInformation);
     } catch (err) {
       console.log(err);
     }
     console.log("update successful");
     res.json("update successful");
+  },
+
+  deleteProfile: async (req, res) => {
+    let token = res.locals.userAuth
+    console.log('token: ', token)
+    let Id = token.data.id
+    console.log('Id:', Id)
+    let userId = mongoose.Types.ObjectId(Id)
+    console.log('userId: ', userId)
+
+    try {
+      await user.findByIdAndDelete(userId);
+      console.log('user: ', user)
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("delete profile successful");
+    res.json('delete successful')
   },
 
   deleteProfile: async (req, res) => {
