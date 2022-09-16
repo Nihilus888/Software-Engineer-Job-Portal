@@ -123,15 +123,12 @@ module.exports = {
   },
 
   profile: async (req, res) => {
-    let user = null;
-    let userAuth = res.locals.userAuth;
-    console.log("userAuth:", userAuth);
+    let user = req.params.id;
+    console.log("req.params.id:", req.params.id);
+    let userId = mongoose.Types.ObjectId(user);
 
-    if (!userAuth) {
-      return res.status(401).json();
-    }
     try {
-      user = await userModel.findOne({ email: user.email });
+      user = await userModel.findOne({ _id: userId });
       console.log("user:", user);
       if (!user) {
         return res.status(404).json();
@@ -144,7 +141,7 @@ module.exports = {
     const userData = {
       name: user.name,
       email: user.email,
-      password: password,
+      password: "",
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -164,7 +161,27 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    await userModel.findByIdAndUpdate(userId);
+    const validationResults =  userValidators.createUser.validate(req.body);;
+    console.log("validationResults:", validationResults);
+
+    if (validationResults.error) {
+      res.json(validationResults.error.details[0].message);
+      return;
+    }
+    
+    const validatedResults = validationResults.value;
+    console.log("ValidationResults: ", validatedResults);
+
+    const passwordHash = await bcrypt.hash(req.body.password, 5);
+    const userInformation = { ...req.body, password: passwordHash };
+    console.log("passwordHash: ", passwordHash);
+    console.log("user: ", user);
+
+    try {
+      await user.findByIdAndUpdate(userId, userInformation);
+    } catch (err) {
+      console.log(err);
+    }
     console.log("update successful");
     res.json("update successful");
   },
@@ -184,28 +201,46 @@ module.exports = {
       console.log(err);
     }
     console.log("delete profile successful");
+    res.json('delete successful')
+  },
+
+  deleteProfile: async (req, res) => {
+    let token = res.locals.userAuth;
+    console.log("token: ", token);
+    let Id = token.data.id;
+    console.log("Id:", Id);
+    let userId = mongoose.Types.ObjectId(Id);
+    console.log("userId: ", userId);
+
+    try {
+      await user.findByIdAndDelete(userId);
+      console.log("user: ", user);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("delete profile successful");
+    res.json("delete successful");
   },
 
   logout: async (req, res) => {
-    req.session.user = null;
+    let token = res.locals.userAuth;
+    console.log('token backend:', token)
 
-    req.session.save(function (err) {
-      if (err) {
-        res.redirect("/");
-        return;
+    try {
+      //if token is not there, immediately logout
+      if (!token) {
+        return res.status(404).json({message: 'token is not found', status: 404})
       }
+    } catch (err) {
+      console.log(err)
+      res.status(404).json({err: 'unable to logout', status: 404})
+    }
 
-      //regenerate session
-      req.session.regenerate(function (err) {
-        if (err) {
-          res.redirect("/home");
-          return;
-        }
-      });
       //remove JWT token from localstorage and return to home guest login page
       //localStorage.removeItem(token);
-
-      res.send("successfully logged out");
-    });
+      //localStorage.clear()
+      
+      console.log('successfully logged out')
+      res.json("logged out successful");
   },
 };
