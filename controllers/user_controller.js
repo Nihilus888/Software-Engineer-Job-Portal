@@ -223,25 +223,24 @@ module.exports = {
   },
 
   logout: async (req, res) => {
-    req.session.user = null;
+    let token = res.locals.userAuth;
+    console.log('token backend:', token)
 
-    req.session.save(function (err) {
-      if (err) {
-        res.redirect("/");
-        return;
+    try {
+      //if token is not there, immediately logout
+      if (!token) {
+        return res.status(404).json({message: 'token is not found', status: 404})
       }
+    } catch (err) {
+      console.log(err)
+      res.status(404).json({err: 'unable to logout', status: 404})
+    }
 
-      //regenerate session
-      req.session.regenerate(function (err) {
-        if (err) {
-          res.redirect("/home");
-          return;
-        }
-      });
       //remove JWT token from localstorage and return to home guest login page
       //localStorage.removeItem(token);
-
-      res.send("successfully logged out");
-    });
+      //localStorage.clear()
+      
+      console.log('successfully logged out')
+      res.json("logged out successful");
   },
 };

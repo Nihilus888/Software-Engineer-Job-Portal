@@ -12,7 +12,7 @@ router.post('/register', userController.register)
 router.post('/login', userController.login)
 
 //logout route
-router.post('/logout', userController.logout)
+router.post('/logout', auth_middleware, userController.logout)
 
 //profile route with creating jobs and jobs that I applied to 
 router.get('/profile/:id', userController.profile)
