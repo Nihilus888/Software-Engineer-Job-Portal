@@ -30,4 +30,4 @@ Our backend needed to be setup first and we decided to use MongoDb Atlas as it i
 
 # Figma Flowchart
 
-Link: https://www.figma.com/file/FJjGOgsWtysO05isxBc0oq/Software-Engineer-Job-Posting?node-id=689%3A832
+![Figma-Flowchart](public/img/Flowchart.png)
