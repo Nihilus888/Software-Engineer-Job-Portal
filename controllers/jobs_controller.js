@@ -25,7 +25,7 @@ module.exports = {
             company: job.company.companyname,
             title: job.title,
             position: job.position,
-            experience: job.seniority[0] ? job.seniority[0] : 'Not Stated',
+            experience: job.seniority[0] ? job.seniority[0] : '',
             salary_min: job.salary_min ? job.salary_min : '',
             salary_max: job.salary_max,
             currency: job.currency,
