@@ -22,7 +22,7 @@ module.exports = {
     let result = []
     data.job_listings.forEach((job,idx) => {
         result[idx] = {
-            company: job.company,
+            company: job.company.companyname,
             title: job.title,
             position: job.position,
             experience: job.seniority[0] ? job.seniority[0] : 'Not Stated',
