@@ -15,7 +15,7 @@ router.post('/login', userController.login)
 router.post('/logout', auth_middleware, userController.logout)
 
 //profile route with creating jobs and jobs that I applied to 
-router.get('/profile/:id', userController.profile)
+router.get('/profile/:id', auth_middleware, userController.profile)
 
 //profile with patch jobs
 router.patch('/profile/:id', auth_middleware, userController.editProfile)
