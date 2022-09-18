@@ -12,7 +12,7 @@ const jobValidators = {
         currency: Joi.string().required(),
         experience: Joi.number(),
         skills: Joi.array().items(Joi.object({
-            skill: Joi.string()
+            name: Joi.string()
         })),
 
         if(err) {
