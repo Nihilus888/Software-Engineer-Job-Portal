@@ -107,8 +107,8 @@ module.exports = {
     //get users Id without encrypting it
     let userDataId = user._id
     let userId = userDataId.toString()
-    console.log('userDataId', userDataId)
-    console.log('userId', userId)
+    console.log('userDataId:', userDataId)
+    console.log('userId:', userId)
 
     console.log("userData:", userData);
 

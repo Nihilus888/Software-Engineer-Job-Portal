@@ -22,7 +22,7 @@ Our backend needed to be setup first and we decided to use MongoDb Atlas as it i
 For our frontend, we used a react library called Material UI to do our styling and formatting of our pages. As for our routes, we used 
 React Router to do the necessary routing to our various pages via usedNavigate. React router makes it easier for us to declare our routes and to specify where to navigate easily. From there we can also fetch different HTTP request like Post to edit different things that we want to edit such as our name, job position, title, etc. 
 
-Managing the frontend and the backend in itself is challenging as there are many permutations and combinations where code conflicts might occur. Hence, we use Trello which is a web-based, Kanban-style, list-making application to keep track of the tasks that we are doing so that we do not encounter issues where we are working on the same thing. 
+Managing the frontend and the backend in itself is challenging as there are many permutations and combinations where code conflicts might occur. Hence, we use Trello which is a web-based, Kanban-style, list-making application to keep track of the tasks that we are doing so that we do not encounter issues where we are working on the same thing. The link to our trello workflow is below. 
 
 Link: https://trello.com/b/w74srKq8/sei-project-3
 
