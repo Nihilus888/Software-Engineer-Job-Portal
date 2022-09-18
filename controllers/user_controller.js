@@ -104,11 +104,11 @@ module.exports = {
       skills: user.skills,
     };
 
-    const userDataId = {
-      id: user._id
-    }
-
+    //get users Id without encrypting it
+    let userDataId = user._id
+    let userId = userDataId.toString()
     console.log('userDataId', userDataId)
+    console.log('userId', userId)
 
     console.log("userData:", userData);
 
@@ -125,7 +125,7 @@ module.exports = {
     //redirect to profile loggedin page
     //return token and on frontend success, store the token on localstorage and
     //whatever else
-    res.json({ token });
+    res.json({ token, userId });
   },
 
   profile: async (req, res) => {
