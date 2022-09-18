@@ -104,6 +104,12 @@ module.exports = {
       skills: user.skills,
     };
 
+    const userDataId = {
+      id: user._id
+    }
+
+    console.log('userDataId', userDataId)
+
     console.log("userData:", userData);
 
     const token = jwt.sign(
