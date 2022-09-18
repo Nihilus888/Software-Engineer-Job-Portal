@@ -139,6 +139,7 @@ module.exports = {
     }
 
     const userData = {
+      id: user._id,
       name: user.name,
       email: user.email,
       password: "",
