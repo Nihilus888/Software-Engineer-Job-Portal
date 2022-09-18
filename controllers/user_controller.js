@@ -104,6 +104,12 @@ module.exports = {
       skills: user.skills,
     };
 
+    //get users Id without encrypting it
+    let userDataId = user._id
+    let userId = userDataId.toString()
+    console.log('userDataId:', userDataId)
+    console.log('userId:', userId)
+
     console.log("userData:", userData);
 
     const token = jwt.sign(
@@ -119,7 +125,7 @@ module.exports = {
     //redirect to profile loggedin page
     //return token and on frontend success, store the token on localstorage and
     //whatever else
-    res.json({ token });
+    res.json({ token, userId });
   },
 
   profile: async (req, res) => {
@@ -139,6 +145,7 @@ module.exports = {
     }
 
     const userData = {
+      id: user._id,
       name: user.name,
       email: user.email,
       password: "",
