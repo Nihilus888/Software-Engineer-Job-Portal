@@ -30,7 +30,8 @@ Link to the frontend repo: https://github.com/sanchezbarry/Software-Engineer-Job
 
 # Unsolved problems
 
-For later (start writing by Tuesday)
+We did not manage to dynamically render the site header when we log in. We also wanted to call another Job portal API to make merge it
+with our current Nodeflaire API search call. However it would be too tedious and time consuming for us to do so as it requires us to create another JOI validator and mongoose data schema to account for that Job portal API and then create one more JOI validator and mongoose data schema for the amalgamation of both common data schema. 
 
 # User Stories
 
