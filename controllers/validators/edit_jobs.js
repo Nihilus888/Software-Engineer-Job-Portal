@@ -13,7 +13,7 @@ const editJobValidators = {
         currency: Joi.string().required(),
         experience: Joi.number(),
         skills: Joi.array().items(Joi.object({
-            skill: Joi.string()
+            name: Joi.string()
         })),
         __v: Joi.number().required(),
 

@@ -35,14 +35,14 @@ module.exports = {
     }
 
     //check if password is the same
-    /*
+
     if (validatedValues.password !== validatedValues.confirmPassword) {
       res.send(
         "Password and confirm password does not match. Please try again"
       );
       return;
     }
-    */
+
 
     //else encrypt password with hash and store all their other details as well into database
     const passwordHash = await bcrypt.hash(req.body.password, 5);
@@ -168,7 +168,7 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    const validationResults =  userValidators.createUser.validate(req.body);;
+    const validationResults =  userValidators.createUser.validate(req.body);
     console.log("validationResults:", validationResults);
 
     if (validationResults.error) {
@@ -178,6 +178,15 @@ module.exports = {
     
     const validatedResults = validationResults.value;
     console.log("ValidationResults: ", validatedResults);
+
+    //check if password is the same
+
+    if (validatedResults.password !== validatedResults.confirmPassword) {
+      res.send(
+        "Password and confirm password does not match. Please try again"
+      );
+      return;
+    }    
 
     const passwordHash = await bcrypt.hash(req.body.password, 5);
     const userInformation = { ...req.body, password: passwordHash };
