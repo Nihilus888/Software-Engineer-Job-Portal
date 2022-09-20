@@ -12,11 +12,10 @@ const user_controller = require("./controllers/user_controller");
 const jobsController = require("./controllers/jobs_controller")
 const auth_middleware = require("./middleware/auth_middleware");
 
-
 //Will probably insert router here later
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 const connStr = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@generalassembly.odxzs.mongodb.net`;
 
 //set view engine

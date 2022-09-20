@@ -20,21 +20,27 @@ When we are doing login functionality, we need to create a jwt by using the json
 Our backend needed to be setup first and we decided to use MongoDb Atlas as it is a database that can be accessed by people who need to access it. Once we setup our database, we decided to look at different job portals and modelled our schema to resemble theirs as we will be pulling their job data later. Afterwards, we planned and pseudo coded our routes and controllers to get a good grasp of what we needed to do and the potential obstacles that we might face. As we work with the frontend, we slowly develop our routes and controllers in conjunction with our frontend by working on one feature at a time using a feature-based development approach so that we can integrate, troubleshoot and revert if anything were to go terribly wrong. By recursing these steps, we eventually merge the different branches into the development phase before going into the staging phase and finally the production stage once everything is working.
 
 For our frontend, we used a react library called Material UI to do our styling and formatting of our pages. As for our routes, we used 
-React Router to do the necessary routing to our various pages via usedNavigate. React router makes it easier for us to declare our routes and to specify where to navigate easily. From there we can also fetch different HTTP request like Post to edit different things that we want to edit such as our name, job position, title, etc. 
+React Router to do the necessary routing to our various pages via usedNavigate. React router makes it easier for us to declare our routes and to specify where to navigate easily. From there we can also fetch different HTTP request like post or delete by using UseEffect or functions that handle submit buttons to edit different things that we want to edit or delete such as our name, job position, title, etc. 
 
-Managing the frontend and the backend in itself is challenging as there are many permutations and combinations where code conflicts might occur. Hence, we use Trello which is a web-based, Kanban-style, list-making application to keep track of the tasks that we are doing so that we do not encounter issues where we are working on the same thing. The link to our trello workflow is below. 
+Managing the frontend and the backend in itself is challenging as there are many permutations and combinations where code conflicts might occur. Hence, we use Trello which is a web-based, Kanban-style, list-making application to keep track of the tasks that we are doing so that we do not encounter issues where we are working on the same thing. The link to our trello workflow and our frontend repo is below.
 
 Link: https://trello.com/b/w74srKq8/sei-project-3
 
+Link to the frontend repo: https://github.com/sanchezbarry/Software-Engineer-Job-Portal-Frontend
+
 # Unsolved problems
+
+We did not manage to dynamically render the site header when we log in. We also wanted to call another Job portal API to make merge it
+with our current Nodeflaire API search call. However it would be too tedious and time consuming for us to do so as it requires us to create another JOI validator and mongoose data schema to account for that Job portal API and then create one more JOI validator and mongoose data schema for the amalgamation of both common data schema. 
 
 # User Stories
 
-1. As a User, I can register an account with a email and a password with the necessary details to find a job
-2. As a User, I can log in into my account and see my profile with the jobs I saved
-3. As a User, I can search and save jobs (in a watchlist)
-4. As an Employer, I can post, edit and delete jobs
+1. As a user, I can register an account with a email and a password with the necessary details to find a job
+2. As a user, I can log in into my account and see my profile with the jobs I saved
+3. As a user, I can search and save jobs (in a watchlist)
+4. As an employer, I can post, edit and delete jobs
 5. As a user, I can look at my saved watch list of jobs. Every time I retrieve this list, the job list should be updated with only jobs postings that are still available
+6. As a user, I can search for jobs on the search bar and get the job that I searched for from different companies with important details such as title, salary and position. 
 
 
 # Figma Flowchart
