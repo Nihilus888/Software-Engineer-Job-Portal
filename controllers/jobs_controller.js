@@ -132,19 +132,33 @@ module.exports = {
 
   listSavedJobs: async (req, res) => {
     // list all jobs in JSON format
-    const allSavedJobs = await savedJobModel.find();
-    res.json(allSavedJobs);
+    const token = res.locals.userAuth
+    let userId = mongoose.Types.ObjectId(token.data.id)
+    const filter = { user: userId }
+
+    const savedJobData = await savedJobModel.find(filter)
+    res.json(savedJobData);
   },
 
   showSavedJob: async (req, res) => {
     // show single saved job data
-    const id = req.params.id;
-    const savedJob = await savedJobModel.findById(id);
-    res.json(savedJob);
   },
 
   saveJob: async (req, res) => {
     // save job data listed via listJobs() into database
+    const saveId = req.body.id
+    const token = res.locals.userAuth
+    let userId = mongoose.Types.ObjectId(token.data.id)
+
+    const filter = { user: userId }
+    const update = { $push: { jobId : [saveId] } }
+
+    const savedJob = await savedJobModel.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true
+    })
+
+    console.log('savedJob: ', savedJob)
   },
 
   removeSavedJob: async (req, res) => {

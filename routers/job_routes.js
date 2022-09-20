@@ -11,7 +11,7 @@ router.post('/search', jobsController.listJobs)
 router.post('/saved', auth_middleware, jobsController.saveJob)
 
 //list all saved jobs
-router.get('/saved', jobsController.listSavedJobs)
+router.get('/saved', auth_middleware, jobsController.listSavedJobs)
 
 // show single saved job data
 router.get('/saved/:id', auth_middleware, jobsController.showSavedJob)
