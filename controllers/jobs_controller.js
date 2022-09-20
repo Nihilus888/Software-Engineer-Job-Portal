@@ -151,14 +151,33 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(token.data.id)
 
     const filter = { user: userId }
-    const update = { $push: { jobId : [saveId] } }
+    const update = { $push: { jobId : saveId } }
 
-    const savedJob = await savedJobModel.findOneAndUpdate(filter, update, {
+    //validation
+    const validationAcc = await savedJobModel.find(filter)
+
+    if (validationAcc === undefined) {
+      await savedJobModel.create({
+        user: userId,
+        jobId: null
+      })
+    } else {
+      try {
+        if (validationAcc[0].jobId.includes(saveId)) {
+          return res.json("Job exists in saved database")
+        }
+      } catch (err) {
+        console.log("User saved data does not exist: ",err)
+      }
+    }
+
+    //adding job ID to savedJobs DB
+    await savedJobModel.findOneAndUpdate(filter, update, {
       new: true,
       upsert: true
     })
 
-    console.log('savedJob: ', savedJob)
+    return res.json("Job Saved!")
   },
 
   removeSavedJob: async (req, res) => {

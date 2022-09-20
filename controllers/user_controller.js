@@ -168,7 +168,7 @@ module.exports = {
     let userId = mongoose.Types.ObjectId(Id);
     console.log("userId: ", userId);
 
-    const validationResults =  userValidators.createUser.validate(req.body);;
+    const validationResults =  userValidators.createUser.validate(req.body);
     console.log("validationResults:", validationResults);
 
     if (validationResults.error) {

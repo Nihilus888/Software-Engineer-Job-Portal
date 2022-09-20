@@ -8,8 +8,7 @@ const savedJobsSchema = new mongoose.Schema({
   },
 
   jobId: {
-    type: [],
-    required: true
+    type: []
   }
 });
 
