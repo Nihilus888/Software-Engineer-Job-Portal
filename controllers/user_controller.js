@@ -162,13 +162,12 @@ module.exports = {
 
   editProfile: async (req, res) => {
     let token = res.locals.userAuth;
-    console.log("token: ", token);
     let Id = token.data.id;
-    console.log("Id:", Id);
     let userId = mongoose.Types.ObjectId(Id);
-    console.log("userId: ", userId);
+    let passwordHash = ''
+    let userInformation = {}
 
-    const validationResults =  userValidators.createUser.validate(req.body);
+    const validationResults =  userValidators.editUser.validate(req.body);
     console.log("validationResults:", validationResults);
 
     if (validationResults.error) {
@@ -180,18 +179,17 @@ module.exports = {
     console.log("ValidationResults: ", validatedResults);
 
     //check if password is the same
+    console.log("the passwords: ", req.body.password, req.body.confirmPassword)
 
-    if (validatedResults.password !== validatedResults.confirmPassword) {
-      res.send(
-        "Password and confirm password does not match. Please try again"
-      );
-      return;
-    }    
-
-    const passwordHash = await bcrypt.hash(req.body.password, 5);
-    const userInformation = { ...req.body, password: passwordHash };
-    console.log("passwordHash: ", passwordHash);
-    console.log("user: ", user);
+    if (validatedResults === undefined) {
+      userInformation = { ...req.body }
+      console.log("userInformation: ", userInformation)
+    } else {
+      passwordHash = await bcrypt.hash(req.body.password, 5);
+      userInformation = { ...req.body, password: passwordHash };
+      console.log("passwordHash: ", passwordHash);
+      console.log("userInformation: ", userInformation);
+    }
 
     try {
       await user.findByIdAndUpdate(userId, userInformation);
