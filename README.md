@@ -28,6 +28,13 @@ Link: https://trello.com/b/w74srKq8/sei-project-3
 
 Link to the frontend repo: https://github.com/sanchezbarry/Software-Engineer-Job-Portal-Frontend
 
+# Challenges
+
+To challenge ourselves, we decided to use Material UI to do our UI and React Router to do our routing on the frontend. It was not easy as we
+had to read a lot of documentation and watch a lot of tutorials to understand how to use it effectively. Integrating both the frontend and backend repos were pretty hard initially as we needed to understand where we needed to make the API call to the backend to get the necessary info from the Mongo database. 
+
+Learning Json web token and choosing which data to encrypt and sign was something that we need to decide properly as we needed to decode the token later if we need to pull out certain information. 
+
 # Unsolved problems
 
 We did not manage to dynamically render the site header when we log in. We also wanted to call another Job portal API to make merge it
