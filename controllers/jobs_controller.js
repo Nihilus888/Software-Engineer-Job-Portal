@@ -133,19 +133,52 @@ module.exports = {
 
   listSavedJobs: async (req, res) => {
     // list all jobs in JSON format
-    const allSavedJobs = await savedJobModel.find();
-    res.json(allSavedJobs);
+    const token = res.locals.userAuth
+    let userId = mongoose.Types.ObjectId(token.data.id)
+    const filter = { user: userId }
+
+    const savedJobData = await savedJobModel.find(filter)
+    res.json(savedJobData);
   },
 
   showSavedJob: async (req, res) => {
     // show single saved job data
-    const id = req.params.id;
-    const savedJob = await savedJobModel.findById(id);
-    res.json(savedJob);
   },
 
   saveJob: async (req, res) => {
     // save job data listed via listJobs() into database
+    const saveId = req.body.id
+    const token = res.locals.userAuth
+    let userId = mongoose.Types.ObjectId(token.data.id)
+
+    const filter = { user: userId }
+    const update = { $push: { jobId : saveId } }
+
+    //validation
+    const validationAcc = await savedJobModel.find(filter)
+
+    if (validationAcc === undefined) {
+      await savedJobModel.create({
+        user: userId,
+        jobId: null
+      })
+    } else {
+      try {
+        if (validationAcc[0].jobId.includes(saveId)) {
+          return res.json("Job exists in saved database")
+        }
+      } catch (err) {
+        console.log("User saved data does not exist: ",err)
+      }
+    }
+
+    //adding job ID to savedJobs DB
+    await savedJobModel.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true
+    })
+
+    return res.json("Job Saved!")
   },
 
   removeSavedJob: async (req, res) => {

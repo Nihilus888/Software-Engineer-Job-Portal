@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
     // get Authentication header value
     
     const token = req.header('Authorization')
-    console.log('token:', token)
+    console.log('authMiddleware token:', token)
     if (!token) {
         return res.status(401).json({
         message: "Authentication details empty"
