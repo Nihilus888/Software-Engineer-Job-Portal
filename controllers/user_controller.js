@@ -148,7 +148,6 @@ module.exports = {
       id: user._id,
       name: user.name,
       email: user.email,
-      password: "",
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -164,11 +163,9 @@ module.exports = {
     let token = res.locals.userAuth;
     let Id = token.data.id;
     let userId = mongoose.Types.ObjectId(Id);
-    let passwordHash = ''
     let userInformation = {}
 
     const validationResults =  userValidators.editUser.validate(req.body);
-    console.log("validationResults:", validationResults);
 
     if (validationResults.error) {
       res.json(validationResults.error.details[0].message);
@@ -176,19 +173,24 @@ module.exports = {
     }
     
     const validatedResults = validationResults.value;
-    console.log("ValidationResults: ", validatedResults);
 
     //check if password is the same
-    console.log("the passwords: ", req.body.password, req.body.confirmPassword)
-
-    if (validatedResults === undefined) {
-      userInformation = { ...req.body }
-      console.log("userInformation: ", userInformation)
+    if (req.body.password === undefined || '') {
+      const passwordUnchanged = await userModel.findById(userId)
+      userInformation = {
+        id: validatedResults.id,
+        name: validatedResults.name,
+        email: validatedResults.email,
+        password: passwordUnchanged.password,
+        job: validatedResults.job,
+        position: validatedResults.position,
+        experience: validatedResults.experience,
+        skills: validatedResults.skills
+      }
     } else {
-      passwordHash = await bcrypt.hash(req.body.password, 5);
-      userInformation = { ...req.body, password: passwordHash };
-      console.log("passwordHash: ", passwordHash);
-      console.log("userInformation: ", userInformation);
+        const passwordHash = await bcrypt.hash(req.body.password, 5)
+        console.log("pwh: ", passwordHash)
+        userInformation = { ...req.body, password: passwordHash }
     }
 
     try {
@@ -196,7 +198,6 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-    console.log("update successful");
     res.json("update successful");
   },
 
@@ -249,10 +250,6 @@ module.exports = {
       console.log(err)
       res.status(404).json({err: 'unable to logout', status: 404})
     }
-
-      //remove JWT token from localstorage and return to home guest login page
-      //localStorage.removeItem(token);
-      //localStorage.clear()
       
       console.log('successfully logged out')
       res.json("logged out successful");
