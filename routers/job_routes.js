@@ -25,6 +25,9 @@ router.post('/new', auth_middleware, jobsController.postJob)
 // list all posted jobs
 router.get('/posted', jobsController.listPostedJobs)
 
+// list jobs that user posted
+router.get('/posted/user', auth_middleware, jobsController.listUserPostedJobs)
+
 // show single posted job data
 router.get('/posted/:id', jobsController.showPostedJob)
 
