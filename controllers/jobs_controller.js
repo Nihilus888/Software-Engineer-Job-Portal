@@ -88,6 +88,18 @@ module.exports = {
     res.json(allPostedJobs);
   },
 
+  listUserPostedJobs: async (req,res) => {
+    // list all jobs that user has posted
+    const token = res.locals.userAuth
+    const id = mongoose.Types.ObjectId(token.data.id)
+    try {
+    const userPostedJobs = await postJobModel.find({user : id})
+    res.json(userPostedJobs)
+    } catch(err) {
+      res.json("You have not posted any jobs")
+    }
+  },
+
   showPostedJob: async (req, res) => {
     // show single posted job data
     const id = req.params.id;
@@ -96,9 +108,6 @@ module.exports = {
   },
 
   editJob: async (req, res) => {
-    // perform validations
-    // perform validations
-    console.log('req.session:', req.session)
     const id = req.params.id;
     console.log("id:", id);
     const foundJob = await postJobModel.findById(id);
