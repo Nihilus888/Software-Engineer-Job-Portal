@@ -148,7 +148,6 @@ module.exports = {
       id: user._id,
       name: user.name,
       email: user.email,
-      password: "",
       job: user.job,
       position: user.position,
       experience: user.experience,
@@ -162,14 +161,11 @@ module.exports = {
 
   editProfile: async (req, res) => {
     let token = res.locals.userAuth;
-    console.log("token: ", token);
     let Id = token.data.id;
-    console.log("Id:", Id);
     let userId = mongoose.Types.ObjectId(Id);
-    console.log("userId: ", userId);
+    let userInformation = {}
 
-    const validationResults =  userValidators.createUser.validate(req.body);
-    console.log("validationResults:", validationResults);
+    const validationResults =  userValidators.editUser.validate(req.body);
 
     if (validationResults.error) {
       res.json(validationResults.error.details[0].message);
@@ -177,28 +173,31 @@ module.exports = {
     }
     
     const validatedResults = validationResults.value;
-    console.log("ValidationResults: ", validatedResults);
 
     //check if password is the same
-
-    if (validatedResults.password !== validatedResults.confirmPassword) {
-      res.send(
-        "Password and confirm password does not match. Please try again"
-      );
-      return;
-    }    
-
-    const passwordHash = await bcrypt.hash(req.body.password, 5);
-    const userInformation = { ...req.body, password: passwordHash };
-    console.log("passwordHash: ", passwordHash);
-    console.log("user: ", user);
+    if (req.body.password === undefined || '') {
+      const passwordUnchanged = await userModel.findById(userId)
+      userInformation = {
+        id: validatedResults.id,
+        name: validatedResults.name,
+        email: validatedResults.email,
+        password: passwordUnchanged.password,
+        job: validatedResults.job,
+        position: validatedResults.position,
+        experience: validatedResults.experience,
+        skills: validatedResults.skills
+      }
+    } else {
+        const passwordHash = await bcrypt.hash(req.body.password, 5)
+        console.log("pwh: ", passwordHash)
+        userInformation = { ...req.body, password: passwordHash }
+    }
 
     try {
       await user.findByIdAndUpdate(userId, userInformation);
     } catch (err) {
       console.log(err);
     }
-    console.log("update successful");
     res.json("update successful");
   },
 
@@ -251,10 +250,6 @@ module.exports = {
       console.log(err)
       res.status(404).json({err: 'unable to logout', status: 404})
     }
-
-      //remove JWT token from localstorage and return to home guest login page
-      //localStorage.removeItem(token);
-      //localStorage.clear()
       
       console.log('successfully logged out')
       res.json("logged out successful");
