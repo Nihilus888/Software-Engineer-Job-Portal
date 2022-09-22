@@ -90,7 +90,8 @@ module.exports = {
 
   listUserPostedJobs: async (req,res) => {
     // list all jobs that user has posted
-    const id = mongoose.Types.ObjectId(req.body.id)
+    const token = res.locals.userAuth
+    const id = mongoose.Types.ObjectId(token.data.id)
     try {
     const userPostedJobs = await postJobModel.find({user : id})
     res.json(userPostedJobs)
