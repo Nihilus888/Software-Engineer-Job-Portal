@@ -56,3 +56,11 @@ with our current Nodeflaire API search call. However it would be too tedious and
 
 # Project Link:
 https://lunfy.github.io/Software-Engineer-Job-Portal-Frontend/
+
+Unfortunately heroku has decided to discontinue their free tier service. However there is another way to circumvent this issue by cloning this repo into your local machine.
+
+``` 
+git clone https://github.com/Nihilus888/Software-Engineer-Job-Portal-Backend
+
+git clone https://github.com/Nihilus888/Software-Engineer-Job-Portal-Frontend
+```
