@@ -83,3 +83,5 @@ For the frontend
 ```
 npm start
 ```
+
+Would love to hear your thoughts and feedback :) !
