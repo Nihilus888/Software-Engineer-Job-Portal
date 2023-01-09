@@ -64,3 +64,22 @@ git clone https://github.com/Nihilus888/Software-Engineer-Job-Portal-Backend
 
 git clone https://github.com/Nihilus888/Software-Engineer-Job-Portal-Frontend
 ```
+
+Once you clone both repos, you can combine them into one repo and you can run these commands.
+
+Install all the modules:
+```
+npm i
+```
+
+For the backend,
+
+```
+nodemon server.js
+```
+
+For the frontend
+
+```
+npm start
+```
